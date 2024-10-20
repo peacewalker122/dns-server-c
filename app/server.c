@@ -68,7 +68,7 @@ int main() {
     char response[1] = {'\0'};
 
     // Send response
-    if (sendto(udpSocket, response, sizeof(response), 0,
+    if (sendto(udpSocket, buffer, sizeof(response), 0,
                (struct sockaddr *)&clientAddress,
                sizeof(clientAddress)) == -1) {
       perror("Failed to send response");
