@@ -1,3 +1,4 @@
+#include "../include/header.h"
 #include <errno.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
@@ -8,6 +9,13 @@
 #include <unistd.h>
 
 #define REUSE_PORT = 1;
+
+void print_hex(const char *data, size_t length) {
+  for (size_t i = 0; i < length; i++) {
+    printf("%02X ", (unsigned char)data[i]);
+  }
+  printf("\n");
+}
 
 int main() {
   // Disable output buffering
@@ -65,7 +73,22 @@ int main() {
     printf("Received %d bytes: %s\n", bytesRead, buffer);
 
     // Create an empty response
-    char response[1] = {'\0'};
+    struct header resp;
+    resp.id = 1234;
+    resp.qr = 1;
+    resp.aa = 0;
+    resp.tc = 0;
+    resp.rd = 0;
+    resp.ra = 0;
+    resp.z = 0;
+    resp.opcode = 0;
+    resp.qdcount = 0;
+    resp.ancount = 0;
+    resp.nscount = 0;
+    resp.arcount = 0;
+
+    char *response = serialize(&resp);
+    print_hex(response, 12);
 
     // Send response
     if (sendto(udpSocket, buffer, sizeof(response), 0,
@@ -73,6 +96,7 @@ int main() {
                sizeof(clientAddress)) == -1) {
       perror("Failed to send response");
     }
+    free(response);
   }
 
   close(udpSocket);
