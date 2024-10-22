@@ -88,10 +88,9 @@ int main() {
     resp.arcount = 0;
 
     char *response = serialize(&resp);
-    print_hex(response, 12);
 
     // Send response
-    if (sendto(udpSocket, buffer, sizeof(response), 0,
+    if (sendto(udpSocket, response, strlen(response), 0,
                (struct sockaddr *)&clientAddress,
                sizeof(clientAddress)) == -1) {
       perror("Failed to send response");
