@@ -90,7 +90,7 @@ int main() {
     char *response = serialize(&resp);
 
     // Send response
-    if (sendto(udpSocket, response, strlen(response), 0,
+    if (sendto(udpSocket, response, 12, sizeof(response),
                (struct sockaddr *)&clientAddress,
                sizeof(clientAddress)) == -1) {
       perror("Failed to send response");
