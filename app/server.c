@@ -86,7 +86,7 @@ int main() {
     resp.ra = 0;
     resp.z = 0;
     resp.opcode = 0;
-    resp.qdcount = 0;
+    resp.qdcount = 1;
     resp.ancount = 0;
     resp.nscount = 0;
     resp.arcount = 0;
