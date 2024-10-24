@@ -1,4 +1,5 @@
 #include "../include/header.h"
+#include "../include/question.h"
 #include <errno.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
@@ -72,6 +73,9 @@ int main() {
     buffer[bytesRead] = '\0';
     printf("Received %d bytes: %s\n", bytesRead, buffer);
 
+    struct question question;
+    question.name = "google.com";
+
     // Create an empty response
     struct header resp;
     resp.id = 1234;
@@ -88,6 +92,13 @@ int main() {
     resp.arcount = 0;
 
     char *response = serialize(&resp);
+    char *question_buf = dezerialize_question(&question);
+
+    print_hex(question_buf, strlen(question_buf));
+
+    response = realloc(response, strlen(response) + strlen(question_buf) + 12);
+    strcat(response, question_buf);
+    free(question_buf);
 
     // Send response
     if (sendto(udpSocket, response, 12, sizeof(response),

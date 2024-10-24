@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -6,7 +7,7 @@
 
 struct header {
   unsigned short id;
-  unsigned char qr : 1;
+  bool qr : 1;
   unsigned char opcode : 4;
   unsigned char aa : 1;
   unsigned char tc : 1;
